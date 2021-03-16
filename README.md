@@ -55,4 +55,7 @@
         * Row Key: `timestamp`
         * Row Data: JSON payload containing VM health status changes as of timestamp
 
+### API Management
+The following draft API Swagger is intended for consumption by XYZ Co:
 
+[Open API Specification](solution/Server Co API Swagger.yml)
