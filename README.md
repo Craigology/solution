@@ -58,4 +58,4 @@
 ### API Management
 The following draft API Swagger is intended for consumption by XYZ Co:
 
-[Open API Specification](solution/Server Co API Swagger.yml)
+[Open API Specification](serverco-api-swagger.yml)
