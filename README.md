@@ -1,5 +1,7 @@
 # Solution Overview
 
+![](Solution.drawio.png)
+
 ## XYZ Co
 
 ### Networking
