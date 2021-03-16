@@ -59,3 +59,4 @@
 The following draft API Swagger is intended for consumption by XYZ Co:
 
 [Open API Specification](serverco-api-swagger.yml)
+![](serverco-api-swagger.jpg)
