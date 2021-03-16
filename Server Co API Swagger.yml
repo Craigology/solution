@@ -1,0 +1,147 @@
+openapi: 3.0.0
+info:
+  title: "ServerHosting Co Status API"
+  version: 1.0.0
+  description: "Service Description for Server Hosting Co Server Status API"
+  contact:
+    email: "support@serverhosting.co"
+    name: "ServerHosting Co Support"
+
+paths:
+  /servers/{date}:
+    get:
+      tags:
+        - Status Enquiry
+      description: |
+        "Returns summarised server status for the given local date (based on the BRISBANE timezone location of ServerHosting Co)."
+      operationId: "get-servers-for-date"
+      parameters:
+      - $ref: '#/components/parameters/date'
+      responses:
+        200:
+          $ref: "#/components/schemas/ServersSummary"
+        400:
+          $ref: "#/components/responses/BadRequest"        
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        500:
+          $ref: "#/components/responses/General"
+          
+  /server/{servername}/{date}:
+    get:
+      tags:
+        - Status Enquiry
+      description: |
+        "Returns detailed server status for the given local date (based on the BRISBANE timezone location of ServerHosting Co)."
+      operationId: "get-server-for-date"
+      parameters:
+      - $ref: '#/components/parameters/servername'
+      - $ref: '#/components/parameters/date'
+      responses:
+        200:
+          $ref: "#/components/schemas/ServerDetail"
+        400:
+          $ref: "#/components/responses/BadRequest"        
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        500:
+          $ref: "#/components/responses/General"
+
+components:
+  responses:
+    BadRequest:
+      description: "Invalid HTTP request, parameters or payload."
+    Unauthorized:
+      description: "Invalid request credentials."
+    General:
+      description: "A critical or unhandled error has occurred in the system, or a dependency."
+  schemas:
+    ServersSummary:
+      description: "Success Response"
+      type: object
+      properties:
+        servers:
+          type: array
+          description: erererer
+          items:
+            $ref: '#/components/schemas/ServerSummary'
+          
+    ServerSummary:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the server
+        id:
+          type: string
+          description: Asset ID of the server        
+        status:
+          type: string
+          description: Status of the server
+          enum:
+          - Healthy
+          - Warning
+          - Critical
+          - Unknown
+          - Disabled
+        lastChanged:
+          type: string
+          nullable: true
+          description: Timestamp for when the last status change was detected during the given date, will not be provided if no change detected for the specified date.
+      example:
+        name: SHCVMAUE019
+        id: SHCVMAUE019
+        status: DEGRADED
+        lastChanged: 2021-03-16
+        
+    ServerDetail:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the server
+        id:
+          type: string
+          description: Asset ID of the server        
+        status:
+          type: string
+          description: Status of the server
+          enum:
+          - Healthy
+          - Warning
+          - Critical
+          - Unknown
+          - Disabled
+        lastChanged:
+          type: string
+          nullable: true
+          description: Timestamp for when the last status change was detected during the given date, will not be provided if no change detected for the specified date.
+        details:
+          type: string
+          nullable: true
+          description: Escaped JSON payload containing additional properties reported by Azure Monitor Guest Health
+        
+  parameters:
+    apikey:
+      in: "header"
+      name: "ocp-apim-subscription-key"
+      description: "API Key"
+      required: true
+      schema:
+        type: string
+    date:
+      in: "path"
+      name: "date"
+      description: "Date parameter for filtering Server Status requests"
+      required: true
+      schema:
+        type: string
+        format: date
+    servername:
+      in: "path"
+      name: "servername"
+      description: "Server Name for filtering Server Status requests"
+      required: true
+      schema:
+        type: string
+  
